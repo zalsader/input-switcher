@@ -26,8 +26,8 @@ hidapitester --vidpid ${RCVR_VID}:${RCVR_PID} --usage 0x0001 --usagePage 0xFF00 
 hidapitester --vidpid ${RCVR_VID}:${RCVR_PID} --usage 0x0001 --usagePage 0xFF00 --open --length 7 --send-output 0x10,${MSE_ID},0x09,0x19,${MSE_CH},0x00,0x00
 
 # Switch the monitors
-ddcutil setvcp 60 0x1${MONITOR} -d 1
-ddcutil setvcp 60 0x1${MONITOR} -d 2
+ddcutil setvcp 60 0x1${MONITOR} -d 1 &
+ddcutil setvcp 60 0x1${MONITOR} -d 2 &
 
 exit 0
 
