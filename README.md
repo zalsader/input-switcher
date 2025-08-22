@@ -1,64 +1,31 @@
-# Logitech MX - Input Switcher
+# Logitech MX - Input & Monitor Switcher
 
-# 1 - Introduction
-The application and scripts provided in this repository let you switch your Logitech keyboard and mouse with one click of a button to another channel. This respository contains scritps for both Windows and Linux. You can use this repository to create your own specific setup.
-The repository contains the hidapitester tool for both Windows and Linux.
-If you prefer to use the most current version you can download this here: https://github.com/todbot/hidapitester
+## Introduction
 
-What you need is 2 Logitech Unifying/Bolt receivers or bluetooth connection. One for your Windows machine and one for your Linux machine. 
-Then take one receiver and first connect the keyboard to it and then the mouse. Make sure that both are connected on channel 1.
-Take the second receiver and first connect the keyborad to it and then the mouse. Make sure that both are connected on channel 2.
-The first receiver connects to the Windows machine, the second to the Linux machine.
+The application and scripts provided in this repository let you switch your Logitech keyboard and mouse, along with monitors with one click of a button to another channel/input. This respository contains scripts for and Linux. You can use this repository to create your own specific setup. Forked from https://github.com/marcelhoffs/input-switcher .
 
-So if your keyboard and mouse are on channel 1, they control the Windows machine. If they are on channel 2, they control the Linux machine.
+## Dependencies
 
-# 2 - Windows
-The **windows** folder contains the following files:
-- switch_to_2.bat
-- switch_to_2.vbs
-- hidapitester.exe
+- hidapitester: https://github.com/todbot/hidapitester
+- ddcutil: https://github.com/rockowitz/ddcutil
 
-Create the following folder **c:\Program Files\InputSwitcher** and copy the 3 files into this folder.
-Now use Logitech Options to assign a custom application to the "Menu" key and have it execute the program: **C:\Program Files\InputSwitcher\switch_to_2.vbs**.
-
-## 2.1 - switch_to_2.bat
-This simple batch script switches the input to channel 2.
-
-## 2.2 - switch_to_2.vbs
-This is a Visual Basic script that is just a wrapper around switch_to_2.bat. If you would execute switch_to_2.bat you would get a command prompt window that pops up every time. The switch_to_2.vbs script prevents this. So if you bind this script to a key on your keyboard you can switch to another channel without windows popping up.
+What you need is 2 Logitech Unifying/Bolt receivers or bluetooth connection. One for your First machine and one for your Second machine. Additionally, connect one computer to the monitor's input 1 and the other machine to the other input.
 
 # 3 - Linux
 From the **Linux** folder, copy both files (switch_to_1.sh & hidapitester) to: **/usr/bin**
 ```
 cd linux
-sudo cp hidapitester /usr/bin
-sudo cp switch_to_1.sh /usr/bin
+sudo cp switch_input.sh /usr/bin
 sudo cp 42-logitech-unify.rules /usr/lib/udev/rules.d
-chmod +x /usr/bin/hidapitester
-chmod +x /usr/bin/switch_to_1.sh
+sudo chmod a+rw /dev/i2c-*
+sudo chmod +x /usr/bin/switch_input.sh
 ```
 If you have Solaar installed copying the 42-logitech-unify.rules file is not needed. If you don't have Solaar installed you will probably notice that hidapitester does not work without root permissions (e.g. via sudo). This is because non-root users do not have raw access to the hid devices by default.
 So the 42-logitech-unify.rules file is a udev rule that allows raw access to the Logitech Unify receiver for non-root users. You might have to unplug your receiver and plug it in again.
 
-Now in your desktop environment of choice, define a custom shortcut. In my case I have used the "Menu" key on my keyboard and assigned it to execute **/usr/bin/switch_to_1.sh**.
+Now in your desktop environment of choice, define a custom shortcut. In my case I have used the "Menu" key on my keyboard and assigned it to execute **/usr/bin/switch_input.sh**.
 
-## 3.1 - switch_to_1.sh
-This is a simple shell script for Linux to switch the input to channel 1.
-
-## 3.2 - 42-logitech-unify.rules
-As explained earlier, this is a udev rule to allow non-root users raw access to the Unify receiver. As in write commands to it.
-
-# 4 - Mac
-To get this working on a Mac refer to [the Mac README](mac/README.md)
-
-# 5 - Bind the scripts to a key
-Personally I use this key to bind the scripts to in both Windows and Linux.
-![Keyboard](/images/keyboard.png)
-
-## 5.1 - Windows key binding
-In Windows you can use Logitech Options to bind the key to the **switch_to_2.vbs** script.
-
-## 5.2 - Linux key binding
+## Binding
 In Linux it depends on the desktop environment you use. In Gnome you can do it via: **Settings > Keyboard > View and Customize Shortcuts > Custom Shortcuts**
 ![Gnome](/images/gnome.png)
 
@@ -73,7 +40,7 @@ You can download the awesome [Input Remapper](https://github.com/sezanzeb/input-
 6. You now can go in GNOME's custom shortcut editor and specify the script you want to run.
 7. Remember to make sure that the script you created is executable and that hidapitester can as root (you have multiple choices, which have a number of security implications -- suid .sh script, sudo nopasswd for hidapitester... make an informed decision)
 
-# 6 - Modify the scripts
+## Modify the scripts
 Now you know how to set it up, but it probably does not work yet. This is because the delivered script files are geared toward a specific setup.
 You will have to figure out what the correct command is that you have to send to your devices for them to switch.
 
