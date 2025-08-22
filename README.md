@@ -16,7 +16,7 @@ From the **Linux** folder, copy both files (switch_to_1.sh & hidapitester) to: *
 ```
 cd linux
 sudo cp switch_input.sh /usr/bin
-sudo cp 42-logitech-unify.rules /usr/lib/udev/rules.d
+sudo chmod a+rw /dev/hidraw0
 sudo chmod a+rw /dev/i2c-*
 sudo chmod +x /usr/bin/switch_input.sh
 ```
